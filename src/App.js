@@ -3,13 +3,16 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Image from 'react-bootstrap/Image'
 import Avatar from './images/profile-avatar.svg'
-import Navbar from 'react-bootstrap/Navbar'
-import Nav from 'react-bootstrap/Nav'
 import './styles.css'
+import { Route, BrowserRouter as Router, Link, Switch } from 'react-router-dom'
+import Dashboard from './components/Dashboard'
+import Projects from './components/Projects'
+import Employees from './components/Employees'
+import Customers from './components/Customers'
 
 export default () => {
   return (
-    <>
+    <Router>
       <Container>
         <Row style={{ marginTop: '20px', marginLeft: 0 }}>
           <Image src={Avatar} width='80' />
@@ -26,16 +29,22 @@ export default () => {
             <p style={{ opacity: 0.7 }}>Project Manager</p>
           </div>
         </Row>
-        <Navbar>
-          <Nav className='m-0' style={{ padding: 0 }}>
-            <Nav.Link style={{ margin: 0 }}>Dashboard</Nav.Link>
-            <Nav.Link>Projects</Nav.Link>
-            <Nav.Link>Employees</Nav.Link>
-            <Nav.Link>Customers</Nav.Link>
-          </Nav>
-        </Navbar>
+        <nav>
+          <ul style={{ margin: 0, padding: 0 }}>
+            <Link to='/'>Dashboard</Link>
+            <Link to='/projects'>Projects</Link>
+            <Link to='/employees'>Employees</Link>
+            <Link to='/customers'>Customers</Link>
+          </ul>
+        </nav>
         <hr style={{ margin: 0 }} />
+        <Switch>
+          <Route path='/' exact component={Dashboard} />
+          <Route path='/projects' component={Projects} />
+          <Route path='/employees' component={Employees} />
+          <Route path='/customers' component={Customers} />
+        </Switch>
       </Container>
-    </>
+    </Router>
   )
 }
