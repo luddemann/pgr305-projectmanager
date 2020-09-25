@@ -1,10 +1,18 @@
 import React from 'react'
+import {
+  Route,
+  BrowserRouter as Router,
+  NavLink,
+  Switch,
+} from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Image from 'react-bootstrap/Image'
+import Nav from 'react-bootstrap/Nav'
 import Avatar from './images/profile-avatar.svg'
 import './styles.css'
-import { Route, BrowserRouter as Router, Link, Switch } from 'react-router-dom'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 import Dashboard from './components/Dashboard'
 import Projects from './components/Projects'
 import Employees from './components/Employees'
@@ -14,9 +22,9 @@ export default () => {
   return (
     <Router>
       <Container>
-        <Row style={{ marginTop: '20px', marginLeft: 0 }}>
+        <Row className='mt-3 mb-3 ml-0'>
           <Image src={Avatar} width='80' />
-          <div style={{ marginLeft: '20px', marginTop: '20px' }}>
+          <div className='ml-3 mt-3'>
             <h1
               style={{
                 marginBottom: '0px',
@@ -24,22 +32,49 @@ export default () => {
                 fontWeight: '800',
               }}
             >
-              Rolando Gonzalez
+              Roger Federer
             </h1>
             <p style={{ opacity: 0.7 }}>Project Manager</p>
           </div>
         </Row>
-        <nav>
-          <ul style={{ margin: 0, padding: 0 }}>
-            <Link to='/'>Dashboard</Link>
-            <Link to='/projects'>Projects</Link>
-            <Link to='/employees'>Employees</Link>
-            <Link to='/customers'>Customers</Link>
+        <Nav>
+          <ul className='m-0 py-2 px-0'>
+            <NavLink
+              className='mr-4'
+              style={{ color: '#333' }}
+              activeStyle={{ color: '#5A67D8', fontWeight: 'bold' }}
+              to='/dashboard'
+            >
+              Dashboard
+            </NavLink>
+            <NavLink
+              className='mr-4'
+              style={{ color: '#333' }}
+              activeStyle={{ color: '#5A67D8', fontWeight: 'bold' }}
+              to='/projects'
+            >
+              Projects
+            </NavLink>
+            <NavLink
+              className='mr-4'
+              style={{ color: '#333' }}
+              activeStyle={{ color: '#5A67D8', fontWeight: 'bold' }}
+              to='/employees'
+            >
+              Employees
+            </NavLink>
+            <NavLink
+              style={{ color: '#333' }}
+              activeStyle={{ color: '#5A67D8', fontWeight: 'bold' }}
+              to='/customers'
+            >
+              Customers
+            </NavLink>
           </ul>
-        </nav>
-        <hr style={{ margin: 0 }} />
+        </Nav>
+        <hr className='m-0' />
         <Switch>
-          <Route path='/' exact component={Dashboard} />
+          <Route path='/dashboard' exact component={Dashboard} />
           <Route path='/projects' component={Projects} />
           <Route path='/employees' component={Employees} />
           <Route path='/customers' component={Customers} />
