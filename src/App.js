@@ -9,14 +9,15 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Image from 'react-bootstrap/Image'
 import Nav from 'react-bootstrap/Nav'
+import Navbar from 'react-bootstrap/Navbar'
 import Avatar from './images/profile-avatar.svg'
 import './styles.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-import Dashboard from './components/Dashboard'
-import Projects from './components/Projects'
-import Employees from './components/Employees'
-import Customers from './components/Customers'
+import Dashboard from './views/Dashboard'
+import Projects from './views/Projects'
+import Employees from './views/Employees'
+import Customers from './views/Customers'
 
 export default () => {
   return (
@@ -37,44 +38,26 @@ export default () => {
             <p style={{ opacity: 0.7 }}>Project Manager</p>
           </div>
         </Row>
-        <Nav>
-          <ul className='m-0 py-2 px-0'>
-            <NavLink
-              className='mr-4'
-              style={{ color: '#333' }}
-              activeStyle={{ color: '#5A67D8', fontWeight: 'bold' }}
-              to='/dashboard'
-            >
+
+        <Navbar>
+          <Nav>
+            <Nav.Link as={NavLink} to='/'>
               Dashboard
-            </NavLink>
-            <NavLink
-              className='mr-4'
-              style={{ color: '#333' }}
-              activeStyle={{ color: '#5A67D8', fontWeight: 'bold' }}
-              to='/projects'
-            >
+            </Nav.Link>
+            <Nav.Link as={NavLink} to='/projects'>
               Projects
-            </NavLink>
-            <NavLink
-              className='mr-4'
-              style={{ color: '#333' }}
-              activeStyle={{ color: '#5A67D8', fontWeight: 'bold' }}
-              to='/employees'
-            >
+            </Nav.Link>
+            <Nav.Link as={NavLink} to='/employees'>
               Employees
-            </NavLink>
-            <NavLink
-              style={{ color: '#333' }}
-              activeStyle={{ color: '#5A67D8', fontWeight: 'bold' }}
-              to='/customers'
-            >
+            </Nav.Link>
+            <Nav.Link as={NavLink} to='/customers'>
               Customers
-            </NavLink>
-          </ul>
-        </Nav>
+            </Nav.Link>
+          </Nav>
+        </Navbar>
         <hr className='m-0' />
         <Switch>
-          <Route path='/dashboard' exact component={Dashboard} />
+          <Route exact path='/' component={Dashboard} />
           <Route path='/projects' component={Projects} />
           <Route path='/employees' component={Employees} />
           <Route path='/customers' component={Customers} />
