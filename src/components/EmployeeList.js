@@ -5,24 +5,12 @@ import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
-
-const initialList = [
-  {
-    id: 1,
-    name: 'John',
-    profession: 'Interaction designer',
-  },
-  {
-    id: 2,
-    name: 'Sarah',
-    profession: 'Backend developer',
-  },
-]
+import { useEmployeeContext } from '../context/EmployeeProvider'
 
 const EmployeeList = () => {
   const [name, setName] = useState('')
   const [profession, setProfession] = useState('')
-  const [list, setList] = useState(initialList)
+  const { employees, setEmployees } = useEmployeeContext()
 
   const handleSetName = (e) => {
     setName(e.target.value)
@@ -33,18 +21,20 @@ const EmployeeList = () => {
   }
 
   const handleAdd = () => {
-    const newList = list.concat({ name, profession, id: uuidv4() })
+    if (name && profession) {
+      setEmployees([...employees, { name, profession, id: uuidv4() }])
 
-    setList(newList)
-
-    setName('')
-    setProfession('')
+      setName('')
+      setProfession('')
+    } else {
+      alert('Du må legge til navn og yrke først!')
+    }
   }
 
   return (
     <div>
       <Row xs={2} md={4} lg={6} className='mb-5'>
-        {list.map((item) => (
+        {employees.map((item) => (
           <EmployeeItem key={item.id} item={item} />
         ))}
       </Row>
