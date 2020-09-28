@@ -27,15 +27,15 @@ const EmployeeList = () => {
       setName('')
       setProfession('')
     } else {
-      alert('Du må legge til navn og yrke først!')
+      alert('Enter both name and profession :)')
     }
   }
 
   return (
     <div>
       <Row xs={2} md={4} lg={6} className='mb-5'>
-        {employees.map((item) => (
-          <EmployeeItem key={item.id} item={item} />
+        {employees.map((employee) => (
+          <EmployeeItem key={employee.id} employee={employee} />
         ))}
       </Row>
 
@@ -60,9 +60,12 @@ const EmployeeList = () => {
               value={profession}
               onChange={handleSetProfession}
             >
-              <option>Frontend developer</option>
-              <option>Backend developer</option>
-              <option>Interaction designer</option>
+              <option value='' disabled selected>
+                Select profession
+              </option>
+              <option value='Frontend developer'>Frontend developer</option>
+              <option value='Backend developer'>Backend developer</option>
+              <option value='Interaction designer'>Interaction designer</option>
             </Form.Control>
           </Col>
         </Form.Row>
