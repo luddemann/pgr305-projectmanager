@@ -21,7 +21,7 @@ const customers = [
   {
     id: 4,
     companyName: 'Hafslund',
-    companyDesc: 'Power company with ridiculously high prices',
+    companyDesc: 'Power company',
   },
 ]
 
