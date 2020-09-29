@@ -8,11 +8,13 @@ const EmployeeProvider = ({ children }) => {
       id: 1,
       name: 'John',
       profession: 'Interaction designer',
+      imageUrl: `${require('../images/boy-1.svg')}`,
     },
     {
       id: 2,
       name: 'Sarah',
       profession: 'Backend developer',
+      imageUrl: `${require('../images/girl.svg')}`,
     },
   ])
 

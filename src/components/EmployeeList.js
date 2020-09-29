@@ -7,9 +7,19 @@ import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import { useEmployeeContext } from '../context/EmployeeProvider'
 
+import Avatar1 from '../images/boy-1.svg'
+import Avatar2 from '../images/boy.svg'
+import Avatar3 from '../images/girl-1.svg'
+import Avatar4 from '../images/girl.svg'
+import Avatar5 from '../images/man-1.svg'
+import Avatar6 from '../images/man-2.svg'
+
+const imgArray = [Avatar1, Avatar2, Avatar3, Avatar4, Avatar5, Avatar6]
+
 const EmployeeList = () => {
   const [name, setName] = useState('')
   const [profession, setProfession] = useState('')
+  const [imageUrl, setImageUrl] = useState(Avatar6)
   const { employees, setEmployees } = useEmployeeContext()
 
   const handleSetName = (e) => {
@@ -20,12 +30,16 @@ const EmployeeList = () => {
     setProfession(e.target.value)
   }
 
+  const randomAvatar = () =>
+    imgArray[Math.floor(Math.random() * imgArray.length)]
+
   const handleAdd = () => {
     if (name && profession) {
-      setEmployees([...employees, { name, profession, id: uuidv4() }])
+      setEmployees([...employees, { name, profession, imageUrl, id: uuidv4() }])
 
       setName('')
       setProfession('')
+      setImageUrl(randomAvatar)
     } else {
       alert('Enter both name and profession :)')
     }
