@@ -13,41 +13,49 @@ const projects = [
     id: 1,
     title: 'Test title',
     status: 'Under development',
-    assignedEmployees: [{name: 'John'}, {name: 'Sarah'}],
+    assignedEmployees: [{ name: 'John' }, { name: 'Sarah' }],
     client: 1,
   },
   {
     id: 2,
     title: 'Test title 2',
     status: 'Completed',
-    assignedEmployees: [{name: 'John'}],
+    assignedEmployees: [{ name: 'John' }],
   },
   {
     id: 3,
     title: 'Test title 3',
     status: 'Not started',
-    assignedEmployees: [{name: 'Sarah'}],
+    assignedEmployees: [{ name: 'Sarah' }],
   },
 ]
 
 const projectStatuses = [
   {
-    title: 'Not started'
+    title: 'Not started',
   },
   {
-    title: 'Under development'
+    title: 'Under development',
   },
   {
-    title: 'Completed'
-  }
+    title: 'Completed',
+  },
 ]
+
+const employeesToAdd = []
 
 const ProjectList = () => {
   const { employees } = useEmployeeContext()
-  const [list, setList] = useState(projects)
+  const [projectList, setProjectList] = useState(projects)
   const [statuses] = useState(projectStatuses)
   const [clickedItem, setClickedItem] = useState([])
   const [show, setShow] = useState(false)
+  const [projectTitle, setProjectTitle] = useState('')
+  const [employeesOnProject, setEmployeesOnProject] = useState(employeesToAdd)
+
+  const handleProjectTitle = (e) => {
+    setProjectTitle(e.target.value)
+  }
 
   const handleClose = () => setShow(false)
   const handleOpen = (id) => {
@@ -55,8 +63,18 @@ const ProjectList = () => {
     setShow(true)
   }
 
+  const handleEmployeesOnProject = (item) => {
+    if (employeesToAdd.indexOf(`${item}`) !== -1) {
+      alert('Jett')
+    } else setEmployeesOnProject(employeesToAdd.push(item))
+  }
+
+  const deleteEmployeeFromProject = (item) => {
+    setEmployeesOnProject(employeesToAdd.splice(item))
+  }
+
   const handleSetClickedItem = (id) => {
-    setClickedItem(list.filter((project) => project.id === id))
+    setClickedItem(projectList.filter((project) => project.id === id))
   }
 
   const renderedResult = clickedItem.map((item) => {
@@ -74,21 +92,26 @@ const ProjectList = () => {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group controlId="exampleForm.ControlInput1">
+            <Form.Group controlId='exampleForm.ControlInput1'>
               <Form.Label>Title</Form.Label>
-              <Form.Control type="text" defaultValue={item.title} />
+              <Form.Control type='text' defaultValue={item.title} />
             </Form.Group>
-            <Form.Group controlId="exampleForm.ControlSelect1">
+            <Form.Group controlId='exampleForm.ControlSelect1'>
               <Form.Label>Status</Form.Label>
-              <Form.Control as="select">
+              <Form.Control as='select'>
                 {statuses.map((status) => (
-                  <option key={status.title} defaultValue={status.title === item.status}>{status.title}</option>
+                  <option
+                    key={status.title}
+                    defaultValue={status.title === item.status}
+                  >
+                    {status.title}
+                  </option>
                 ))}
               </Form.Control>
             </Form.Group>
-            <Form.Group controlId="exampleForm.ControlSelect2">
+            <Form.Group controlId='exampleForm.ControlSelect2'>
               <Form.Label>Employees assigned</Form.Label>
-              <Form.Control as="select" multiple>
+              <Form.Control as='select' multiple>
                 {employees.map((employee) => (
                   <option key={employee.name}>{employee.name}</option>
                 ))}
@@ -100,9 +123,7 @@ const ProjectList = () => {
           <Button variant='secondary' onClick={handleClose}>
             Close
           </Button>
-          <Button variant='primary'>
-            Save Changes
-          </Button>
+          <Button variant='primary'>Save Changes</Button>
         </Modal.Footer>
       </div>
     )
@@ -126,7 +147,7 @@ const ProjectList = () => {
               <td>{project.id}</td>
               <td>{project.title}</td>
               <td>{project.status}</td>
-              <td>{project.assignedEmployees.map(emp => emp.name)}</td>
+              <td>{project.assignedEmployees.map((emp) => emp.name)}</td>
               <td>
                 <Button
                   variant='primary'
@@ -146,31 +167,65 @@ const ProjectList = () => {
         <Form.Row className='mb-4'>
           <Col xs={7}>
             <Form.Label>Project title</Form.Label>
-            <Form.Control type='text' placeholder='Enter project title' />
+            <Form.Control
+              type='text'
+              placeholder='Enter project title'
+              value={projectTitle}
+              onChange={handleProjectTitle}
+            />
           </Col>
         </Form.Row>
         <Form.Group controlId='exampleForm.ControlSelect1' className='mb-4'>
           <Form.Label>Add employees</Form.Label>
-          <Form.Row className='ml-1'>
+          <Form.Row className='ml-1 mb-3'>
             {employees.map((employee) => (
               <div key={employee.id} className='mr-3'>
                 <p style={{ fontWeight: 'bold' }} className='m-0'>
                   {employee.name}
                 </p>
                 <p> {employee.profession} </p>
-                <Button variant='secondary' className='m-0'>
+                <Button
+                  variant='success'
+                  className='m-0'
+                  onClick={() => handleEmployeesOnProject(employee.name)}
+                >
                   +
                 </Button>
               </div>
             ))}
           </Form.Row>
+          <p>Employees to be added:</p>
+          {employeesToAdd.map((employee) => (
+            <>
+              <div className='my-2' key={employee}>
+                <span style={{ fontWeight: 'bold' }}>{employee}</span>
+                <Button
+                  onClick={() =>
+                    deleteEmployeeFromProject(
+                      employeesToAdd.indexOf(employee.name)
+                    )
+                  }
+                  className='ml-1'
+                  variant='danger'
+                >
+                  x
+                </Button>
+              </div>
+            </>
+          ))}
         </Form.Group>
-        <Button variant='primary' className='mt-2'>
+        <Button
+          variant='primary'
+          className='mt-2'
+          onClick={() => console.log(employeesToAdd)}
+        >
           Add project
         </Button>
       </Form>
 
-      <Modal onHide={handleClose} show={show}>{renderedResult}</Modal>
+      <Modal onHide={handleClose} show={show}>
+        {renderedResult}
+      </Modal>
     </>
   )
 }
