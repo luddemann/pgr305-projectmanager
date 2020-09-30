@@ -6,32 +6,46 @@ import { useEmployeeContext } from '../context/EmployeeProvider'
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import { useParams } from 'react-router-dom'
 
 const projects = [
   {
     id: 1,
     title: 'Test title',
     status: 'Under development',
-    assignedEmployees: [2],
+    assignedEmployees: [{name: 'John'}, {name: 'Sarah'}],
     client: 1,
   },
   {
     id: 2,
     title: 'Test title 2',
     status: 'Completed',
-    assignedEmployees: [1],
+    assignedEmployees: [{name: 'John'}],
   },
   {
     id: 3,
     title: 'Test title 3',
     status: 'Not started',
-    assignedEmployees: [1],
+    assignedEmployees: [{name: 'Sarah'}],
   },
+]
+
+const projectStatuses = [
+  {
+    title: 'Not started'
+  },
+  {
+    title: 'Under development'
+  },
+  {
+    title: 'Completed'
+  }
 ]
 
 const ProjectList = () => {
   const { employees } = useEmployeeContext()
   const [list, setList] = useState(projects)
+  const [statuses] = useState(projectStatuses)
   const [clickedItem, setClickedItem] = useState([])
   const [show, setShow] = useState(false)
 
@@ -59,15 +73,34 @@ const ProjectList = () => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form></Form>
-
-          {/* TODO: Add form */}
+          <Form>
+            <Form.Group controlId="exampleForm.ControlInput1">
+              <Form.Label>Title</Form.Label>
+              <Form.Control type="text" defaultValue={item.title} />
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlSelect1">
+              <Form.Label>Status</Form.Label>
+              <Form.Control as="select">
+                {statuses.map((status) => (
+                  <option key={status.title} defaultValue={status.title === item.status}>{status.title}</option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group controlId="exampleForm.ControlSelect2">
+              <Form.Label>Employees assigned</Form.Label>
+              <Form.Control as="select" multiple>
+                {employees.map((employee) => (
+                  <option key={employee.name}>{employee.name}</option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+          </Form>
         </Modal.Body>
         <Modal.Footer>
           <Button variant='secondary' onClick={handleClose}>
             Close
           </Button>
-          <Button variant='primary' onClick={handleClose}>
+          <Button variant='primary'>
             Save Changes
           </Button>
         </Modal.Footer>
@@ -93,7 +126,7 @@ const ProjectList = () => {
               <td>{project.id}</td>
               <td>{project.title}</td>
               <td>{project.status}</td>
-              <td>{project.assignedEmployees}</td>
+              <td>{project.assignedEmployees.map(emp => emp.name)}</td>
               <td>
                 <Button
                   variant='primary'
@@ -137,7 +170,7 @@ const ProjectList = () => {
         </Button>
       </Form>
 
-      <Modal show={show}>{renderedResult}</Modal>
+      <Modal onHide={handleClose} show={show}>{renderedResult}</Modal>
     </>
   )
 }
