@@ -5,8 +5,6 @@ import Modal from 'react-bootstrap/Modal'
 import { useEmployeeContext } from '../context/EmployeeProvider'
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col'
-import Row from 'react-bootstrap/Row'
-import { useParams } from 'react-router-dom'
 import { getRandomId } from '../utils/utils'
 
 const projectStatuses = [
@@ -49,8 +47,17 @@ const ProjectList = () => {
       assignedEmployees: ['Sarah'],
     },
   ])
+  const [clickedProjectTitle, setClickedProjectTitle] = useState('')
+  const [clickedProjectStatus, setClickedProjectStatus] = useState('')
+  // not implemented yet
+  // const [clickedProjectEmployee, setClickedProjectEmployee] = useState('')
 
   const handleProjectTitle = (e) => setProjectTitle(e.target.value)
+
+  const handleClickedProjectTitle = (e) => setClickedProjectTitle(e.target.value)
+  const handleClickedProjectStatus = (e) => setClickedProjectStatus(e.target.value)
+  // not implemented  yet 
+  // const handleClickedProjectEmployee = (e) => setClickedProjectEmployee(e.target.value)
 
   const handleClose = () => setShow(false)
   const handleOpen = (id) => {
@@ -94,23 +101,29 @@ const ProjectList = () => {
     }
   }, [clickedItem])
 
-  const handleEdit = (e, prop) => {
-    console.log(projects) // får inn endrede elementer, trenger en funksjon for å sette editProject til project
-    setEditProject({
-      ...editProject,
-      [prop]: e.target.value,
-    })
+  const handleUpdateProject = () => {
+
+    const projectIndex = projects.findIndex(element => element.id === clickedItem.id)
+    let newArray = [...projects]
+
+    if (clickedProjectTitle !== '') {newArray[projectIndex] = {...newArray[projectIndex], title: clickedProjectTitle}}
+    if (clickedProjectStatus !== '') {newArray[projectIndex] = {...newArray[projectIndex], status: clickedProjectStatus}}
+    if (clickedProjectTitle !== '' && clickedProjectStatus !== '') {newArray[projectIndex] = {...newArray[projectIndex], title: clickedProjectTitle, status: clickedProjectStatus}}
+
+    setProjects(newArray)
+    setShow(false)
+  }
+  
+  const deleteProject = (id) => {
+    const projectIndex = projects.findIndex(element => element.id === id)
+    
+    let newArray = [...projects]
+    newArray.splice(projectIndex, 1)
+
+    setProjects(newArray)
   }
 
-  // funksjonen som skal bytte prosjektet med de redigerte elementene
-  /* const submit = (clickedItem.id) => {
-    const projectToEdit = projects.find((p) => p.id === clickedItem.id)
-
-    setProjects(...projects)
-  } */
-
-  // Kanskje bytte navn på denne
-  const renderedResult = clickedItem && (
+  const renderedModalForm = clickedItem && (
     <div key={clickedItem.id}>
       <Modal.Header>
         <Modal.Title style={{ display: 'flex', flexDirection: 'row' }}>
@@ -124,8 +137,7 @@ const ProjectList = () => {
             <Form.Control
               type='text'
               defaultValue={clickedItem.title}
-              onChange={(e) => handleEdit(e, 'title')}
-              value={editProject?.title}
+              onChange={handleClickedProjectTitle}
             />
           </Form.Group>
           <Form.Group controlId='exampleForm.ControlSelect1'>
@@ -133,8 +145,7 @@ const ProjectList = () => {
             <Form.Control
               as='select'
               defaultValue={clickedItem.status}
-              value={editProject?.status}
-              onChange={(e) => handleEdit(e, 'status')}
+              onChange={handleClickedProjectStatus}
             >
               {projectStatuses.map((status) => (
                 <option key={status.title}>{status.title}</option>
@@ -155,7 +166,7 @@ const ProjectList = () => {
         <Button variant='secondary' onClick={handleClose}>
           Close
         </Button>
-        <Button variant='primary' type='submit'>
+        <Button variant='primary' type='submit' onClick={handleUpdateProject}>
           Save Changes
         </Button>
       </Modal.Footer>
@@ -172,6 +183,7 @@ const ProjectList = () => {
             <th>Status</th>
             <th>Assigned</th>
             <th>Edit</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -194,6 +206,14 @@ const ProjectList = () => {
                     onClick={() => handleOpen(project.id)}
                   >
                     Edit
+                  </Button>
+                </td>
+                <td>
+                  <Button
+                    variant='danger'
+                    onClick={() => deleteProject(project.id)}
+                  >
+                    Delete
                   </Button>
                 </td>
               </tr>
@@ -255,7 +275,7 @@ const ProjectList = () => {
       </Form>
 
       <Modal onHide={handleClose} show={show}>
-        {renderedResult}
+        {renderedModalForm}
       </Modal>
     </>
   )
