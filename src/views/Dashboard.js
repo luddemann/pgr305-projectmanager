@@ -17,7 +17,6 @@ const Dashboard = () => {
         <Card.Img variant='top' src={ProjectsImg} />
         <Card.Body>
           <Card.Title>Projects</Card.Title>
-          <Card.Text>{employees.length}</Card.Text>
           <Button as={Link} to='/projects' variant='primary'>
             Go to projects
           </Button>
@@ -37,7 +36,7 @@ const Dashboard = () => {
         <Card.Img variant='top' src={CustomersImg} />
         <Card.Body>
           <Card.Title>Customers</Card.Title>
-          <Card.Text>{employees.length}</Card.Text>
+          <Card.Text>4</Card.Text>
           <Button as={Link} to='/customers' variant='primary'>
             Go to customers
           </Button>

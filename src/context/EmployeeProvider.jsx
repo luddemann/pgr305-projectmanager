@@ -16,6 +16,12 @@ const EmployeeProvider = ({ children }) => {
       profession: 'Backend developer',
       imageUrl: `${require('../images/girl.svg')}`,
     },
+    {
+      id: 2,
+      name: 'Alex',
+      profession: 'Frontend developer',
+      imageUrl: `${require('../images/man-2.svg')}`,
+    },
   ])
 
   return (

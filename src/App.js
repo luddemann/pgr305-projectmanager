@@ -11,7 +11,6 @@ import Image from 'react-bootstrap/Image'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import Avatar from './images/profile-avatar.svg'
-import './styles.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import Dashboard from './views/Dashboard'

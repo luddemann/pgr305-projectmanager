@@ -21,4 +21,4 @@ const imgArray = [
 export const getRandomAvatar = () =>
   imgArray[Math.floor(Math.random() * imgArray.length)]
 
-export const getRandomId = () => Date.now() + Math.floor(Math.random() * 420)
+export const getRandomId = () => Date.now() + Math.floor(Math.random() * 10)

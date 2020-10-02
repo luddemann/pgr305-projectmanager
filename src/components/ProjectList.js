@@ -29,20 +29,20 @@ const ProjectList = () => {
   const [projects, setProjects] = useState([
     {
       id: 1,
-      title: 'Test title',
+      title: 'Website for Vy',
       status: 'Under development',
       assignedEmployees: ['John', 'Sarah'],
       client: 1,
     },
     {
       id: 2,
-      title: 'Test title 2',
+      title: 'App for Statoil',
       status: 'Completed',
       assignedEmployees: ['John'],
     },
     {
       id: 3,
-      title: 'Test title 3',
+      title: 'Update database',
       status: 'Not started',
       assignedEmployees: ['Sarah'],
     },
@@ -54,9 +54,11 @@ const ProjectList = () => {
 
   const handleProjectTitle = (e) => setProjectTitle(e.target.value)
 
-  const handleClickedProjectTitle = (e) => setClickedProjectTitle(e.target.value)
-  const handleClickedProjectStatus = (e) => setClickedProjectStatus(e.target.value)
-  // not implemented  yet 
+  const handleClickedProjectTitle = (e) =>
+    setClickedProjectTitle(e.target.value)
+  const handleClickedProjectStatus = (e) =>
+    setClickedProjectStatus(e.target.value)
+  // not implemented  yet
   // const handleClickedProjectEmployee = (e) => setClickedProjectEmployee(e.target.value)
 
   const handleClose = () => setShow(false)
@@ -81,12 +83,12 @@ const ProjectList = () => {
 
   const addProject = () => {
     if (!projectTitle) {
-      alert('Mangler tittel')
+      alert('Enter project title')
     } else {
       setProjects([
         ...projects,
         {
-          id: getRandomId().toString().substring(0, 4),
+          id: getRandomId(),
           title: projectTitle,
           status: 'Not started',
           assignedEmployees: employeesOnProject,
@@ -102,21 +104,38 @@ const ProjectList = () => {
   }, [clickedItem])
 
   const handleUpdateProject = () => {
-
-    const projectIndex = projects.findIndex(element => element.id === clickedItem.id)
+    const projectIndex = projects.findIndex(
+      (element) => element.id === clickedItem.id
+    )
     let newArray = [...projects]
 
-    if (clickedProjectTitle !== '') {newArray[projectIndex] = {...newArray[projectIndex], title: clickedProjectTitle}}
-    if (clickedProjectStatus !== '') {newArray[projectIndex] = {...newArray[projectIndex], status: clickedProjectStatus}}
-    if (clickedProjectTitle !== '' && clickedProjectStatus !== '') {newArray[projectIndex] = {...newArray[projectIndex], title: clickedProjectTitle, status: clickedProjectStatus}}
+    if (clickedProjectTitle !== '') {
+      newArray[projectIndex] = {
+        ...newArray[projectIndex],
+        title: clickedProjectTitle,
+      }
+    }
+    if (clickedProjectStatus !== '') {
+      newArray[projectIndex] = {
+        ...newArray[projectIndex],
+        status: clickedProjectStatus,
+      }
+    }
+    if (clickedProjectTitle !== '' && clickedProjectStatus !== '') {
+      newArray[projectIndex] = {
+        ...newArray[projectIndex],
+        title: clickedProjectTitle,
+        status: clickedProjectStatus,
+      }
+    }
 
     setProjects(newArray)
     setShow(false)
   }
-  
+
   const deleteProject = (id) => {
-    const projectIndex = projects.findIndex(element => element.id === id)
-    
+    const projectIndex = projects.findIndex((element) => element.id === id)
+
     let newArray = [...projects]
     newArray.splice(projectIndex, 1)
 
@@ -154,11 +173,11 @@ const ProjectList = () => {
           </Form.Group>
           <Form.Group controlId='exampleForm.ControlSelect2'>
             <Form.Label>Employees assigned</Form.Label>
-            <Form.Control as='select' multiple>
+            <div>
               {clickedItem.assignedEmployees.map((employee) => (
                 <option key={employee}>{employee}</option>
               ))}
-            </Form.Control>
+            </div>
           </Form.Group>
         </Form>
       </Modal.Body>
